@@ -38,5 +38,24 @@ df = df.drop(columns=["age"])
 print(f"Age range(years): {df['age_years'].min()} - {df['age_years'].max()}")
 print(f"BMI range: {df['bmi'].min()} - {df['bmi'].max()}\n")
 
+#Remove impossible values for blood pressure values
+
+#Threshold we have from our proposal:
+# ap_hi (systolic) : keep if 0 < ap_hi < 250
+# ap_low (diastolic) : keep if 0 < ap_lo < 150
+rows_before = len(df)
+
+df = df[(df["ap_hi"] > 0) & (df["ap_hi"] < 250)]
+df = df[(df["ap_lo"] > 0) & (df["ap_lo"] < 150)]
+
+# Also remove rows where diastolic >= systolic (physically impossible)
+df = df[df["ap_lo"] < df["ap_hi"]]
+
+rows_after = len(df)
+rows_removed = rows_before - rows_after
+print(f"Blood pressure outlier removal:")
+print(f"  Rows before: {rows_before}")
+print(f"  Rows after:  {rows_after}")
+print(f"  Removed:     {rows_removed} ({rows_removed / rows_before * 100:.2f}%)\n")
 
 
