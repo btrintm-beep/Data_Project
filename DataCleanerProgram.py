@@ -58,4 +58,12 @@ print(f"  Rows before: {rows_before}")
 print(f"  Rows after:  {rows_after}")
 print(f"  Removed:     {rows_removed} ({rows_removed / rows_before * 100:.2f}%)\n")
 
+#Quick Sanity check on the cleaned data
+print("Cleaned dataset summary:")
+print(f"  Shape: {df.shape}")
+print(f"  Target distribution:\n{df['cardio'].value_counts().to_string()}")
+print(f"\n  ap_hi range: {df['ap_hi'].min()} – {df['ap_hi'].max()}")
+print(f"  ap_lo range: {df['ap_lo'].min()} – {df['ap_lo'].max()}")
+print(f"  BMI range:   {df['bmi'].min()} – {df['bmi'].max()}")
+print(f"  Age range:   {df['age_years'].min()} – {df['age_years'].max()} years")
 
