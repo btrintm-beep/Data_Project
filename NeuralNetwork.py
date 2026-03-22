@@ -35,3 +35,24 @@ model.compile(loss='binary_crossentropy', metrics=['accuracy'])
 model.summary()
 
 model.fit(X_train_scaled, Y_train, epochs=50, batch_size=32)
+
+model_performance = model.evaluate(X_test_scaled, Y_test)
+print(f"Loss: {model_performance[0]:.4f}")
+print(f"Accuracy: {model_performance[1]:.4f}")
+
+Y_pred_prob = model.predict(X_test_scaled)
+Y_pred = (Y_pred_prob > 0.5).astype(int).flatten()
+Y_pred_lower = (Y_pred_prob > 0.4).astype(int).flatten()
+
+print("\nWith 0.4 threshold:")
+print(classification_report(Y_test, Y_pred_lower))
+print(confusion_matrix(Y_test, Y_pred_lower))
+
+print("\nClassification Report:")
+print(classification_report(Y_test, Y_pred))
+
+print("Confusion Matrix:")
+print(confusion_matrix(Y_test, Y_pred))
+
+roc_auc = roc_auc_score(Y_test, Y_pred_prob)
+print(f"\nROC-AUC: {roc_auc:.4f}")
