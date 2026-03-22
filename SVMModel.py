@@ -37,3 +37,9 @@ print(confusion_matrix(Y_test, Y_pred))
 
 roc_auc = roc_auc_score(Y_test, Y_pred_prob)
 print(f"\nROC-AUC: {roc_auc:.4f}")
+
+Y_pred_lower = (Y_pred_prob > 0.4).astype(int)
+
+print("\nWith 0.4 threshold:")
+print(classification_report(Y_test, Y_pred_lower))
+print(confusion_matrix(Y_test, Y_pred_lower))
