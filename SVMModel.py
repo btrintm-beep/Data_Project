@@ -4,7 +4,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.svm import SVC
 from sklearn.metrics import classification_report, confusion_matrix, roc_auc_score
-
+import joblib
 df = pd.read_csv("cardio_clean.csv")
 
 X = df.drop(columns=["cardio"])
@@ -43,3 +43,6 @@ Y_pred_lower = (Y_pred_prob > 0.4).astype(int)
 print("\nWith 0.4 threshold:")
 print(classification_report(Y_test, Y_pred_lower))
 print(confusion_matrix(Y_test, Y_pred_lower))
+
+joblib.dump(svm_model, 'svm_model.pkl')
+print("Model saved to svm_model.pkl")
