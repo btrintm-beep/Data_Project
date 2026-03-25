@@ -12,3 +12,7 @@ features = data_frame.drop(columns=["cardio"])
 labels = data_frame["cardio"]
 
 features_train, features_test, labes_train, labels_test = train_test_split(features, labels, test_size=0.2, random_state=42, stratify=labels)
+
+knn_scaler =  StanderdScaler()
+features_train_scaled = knn_scaler.fit_transform(features_train)
+features_test_scaled = knn_scaler.transform(features_test)
