@@ -29,4 +29,14 @@ knn_best_value.fit(features_train_scaled, labes_train)
 knn_model = knn_best_value.best_estimator_
 
 #To do: Evalutaion (accuracy and stuff)
+accuracy = knn_model.score(features_test_scaled, labels_test)
+
+predicted_labels = knn_model.predict(features_test_scaled)
+predicted_label_probabilities = knn_model.predict_proba(features_test_scaled)[:, 1]
+
+knn_confusion_matrix = confusion_matrix(labels_test, predicted_labels)
+
+knn_roc_auc = roc_auc_score(labels_test, predicted_labels)
+
+label_predicted_lower = (predicted_label_probabilities > 0.4).astype(int)
 
