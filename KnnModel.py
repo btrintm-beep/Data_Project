@@ -40,3 +40,4 @@ knn_roc_auc = roc_auc_score(labels_test, predicted_labels)
 
 label_predicted_lower = (predicted_label_probabilities > 0.4).astype(int)
 
+joblib.dump(knn_model, "knn_model.pkl")
