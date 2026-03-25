@@ -13,6 +13,20 @@ labels = data_frame["cardio"]
 
 features_train, features_test, labes_train, labels_test = train_test_split(features, labels, test_size=0.2, random_state=42, stratify=labels)
 
-knn_scaler =  StanderdScaler()
+knn_scaler =  StandardScaler()
 features_train_scaled = knn_scaler.fit_transform(features_train)
 features_test_scaled = knn_scaler.transform(features_test)
+
+parameter_grid = {
+    "n_neighbors": [3, 5, 7, 9, 11], "weights": ["uniform", "distance"], "metric": ["euclidean", "manhattan"]
+}
+
+##This finds the best number of neighbors to use:
+knn_best_value = GridSearchCV(KNeighborsClassifier(), parameter_grid, cv=5, scoring = "accuracy", verbose = 2)
+##Note: cross-validation!!!!
+knn_best_value.fit(features_train_scaled, labes_train)
+
+knn_model = knn_best_value.best_estimator_
+
+#To do: Evalutaion (accuracy and stuff)
+
