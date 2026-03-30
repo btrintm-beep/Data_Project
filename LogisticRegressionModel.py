@@ -40,3 +40,26 @@ lr_best_value = GridSearchCV(
     verbose=2,
     n_jobs=-1
 )
+
+
+# Cross-validation is performed entirely within the training set
+lr_best_value.fit(features_train_scaled, labels_train)
+
+lr_model = lr_best_value.best_estimator_
+
+# Evaluation on the held-out test set
+accuracy = lr_model.score(features_test_scaled, labels_test)
+
+predicted_labels = lr_model.predict(features_test_scaled)
+predicted_label_probabilities = lr_model.predict_proba(features_test_scaled)[:, 1]
+
+lr_confusion_matrix = confusion_matrix(labels_test, predicted_labels)
+
+lr_roc_auc = roc_auc_score(labels_test, predicted_label_probabilities)
+
+# Lower threshold (0.4) to improve recall — catches more true CVD cases
+# Important in medical context: missing a CVD case (false negative) is costly
+label_predicted_lower = (predicted_label_probabilities > 0.4).astype(int)
+
+# Save the trained model
+joblib.dump(lr_model, "lr_model.pkl")
