@@ -23,7 +23,14 @@ print(f"Test size  : {X_test.shape[0]}")
 print(f"Train class balance: {y_train.value_counts().to_dict()}")
 print(f"Test class balance : {y_test.value_counts().to_dict()}")
 
-dt = DecisionTreeClassifier(random_state=42)
+dt = DecisionTreeClassifier(
+    random_state=42,
+    max_depth=8,
+    min_samples_split=10,   #requires more samples to split
+    min_samples_leaf=5,     #requires more samples at each leaf
+    class_weight='balanced', #helps with CVD recall
+    criterion='entropy'      #try entropy instead of gini
+)
 dt.fit(X_train, y_train)
 
 dt_pred = dt.predict(X_test)
